@@ -12,7 +12,11 @@ function FeatureIcon({ type }: { type: string }) {
   return <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 21V7l7-4 7 4v14M9 21v-4h6v4M8 10h2M14 10h2M8 14h2M14 14h2" /></svg>
 }
 function StepIcon({ index }: { index: number }) { return <span className={`step-icon step-icon--${index + 1}`} aria-hidden="true"><i /></span> }
-function BrandMark({ content }: { content: SiteContent }) { return <a className="brand-mark" href="#inicio" aria-label="Ir al inicio de Agencsi"><strong>{content.name}</strong><small>{content.tagline}</small></a> }
+function BrandMark({ content }: { content: SiteContent }) {
+  return <a className="brand-mark" href="#inicio" aria-label="Ir al inicio de Agencsi">
+    <img src="https://agencsi.com/wp-content/uploads/2021/08/logo-oficial-agencsi-blanco.svg" alt={content.name} />
+  </a>
+}
 
 function Header({ content }: SiteShellProps) {
   const [isOpen, setIsOpen] = useState(false)
