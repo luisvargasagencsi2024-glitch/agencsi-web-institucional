@@ -1,0 +1,18 @@
+import { useState, type ReactNode } from 'react'
+import type { SiteContent } from '../../domain/entities/site-content'
+import { BrandMark } from './brand-mark'
+import { ArrowIcon, ChevronDownIcon, MenuIcon } from './icons'
+
+type SiteHeaderProps = Readonly<{ content: SiteContent }>
+
+function NavLink({ href, children, onNavigate }: { href: string, children: ReactNode, onNavigate: () => void }) {
+  return <a href={href} onClick={onNavigate} className="rounded-md px-3 py-2 text-[12px] font-semibold tracking-[-.01em] text-white/75 transition-colors hover:bg-white/8 hover:text-white focus-visible:outline-white lg:px-2.5">{children}</a>
+}
+
+export function SiteHeader({ content }: SiteHeaderProps) {
+  const [isOpen, setIsOpen] = useState(false)
+  const [isServicesOpen, setIsServicesOpen] = useState(false)
+  const closeMenu = () => setIsOpen(false)
+
+  return <header className="sticky top-0 z-50 border-b border-white/10 bg-deep/95 text-white shadow-[0_10px_28px_rgb(20_37_45_/_18%)] backdrop-blur-md"><div className="page-frame relative flex min-h-[76px] items-center gap-5"><BrandMark content={content} className="shrink-0" /><button className="ml-auto grid size-10 place-items-center rounded-md border border-white/15 text-white transition-colors hover:bg-white/10 focus-visible:outline-white lg:hidden" type="button" aria-expanded={isOpen} aria-controls="main-menu" onClick={() => setIsOpen(!isOpen)}><MenuIcon open={isOpen} /><span className="sr-only">{isOpen ? 'Cerrar menú' : 'Abrir menú'}</span></button><nav id="main-menu" className={`${isOpen ? 'flex' : 'hidden'} absolute inset-x-0 top-full flex-col gap-1 border-b border-white/10 bg-deep px-5 py-4 shadow-2xl lg:static lg:ml-auto lg:flex lg:flex-row lg:items-center lg:gap-1 lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none`} aria-label="Navegación principal"><NavLink href="#inicio" onNavigate={closeMenu}>Inicio</NavLink><NavLink href="#nosotros" onNavigate={closeMenu}>Nosotros</NavLink><div className="relative" onMouseEnter={() => setIsServicesOpen(true)} onMouseLeave={() => setIsServicesOpen(false)}><button type="button" aria-expanded={isServicesOpen} onClick={() => setIsServicesOpen(!isServicesOpen)} className="flex w-full items-center justify-between gap-1 rounded-md px-3 py-2 text-[12px] font-semibold tracking-[-.01em] text-white/75 transition-colors hover:bg-white/8 hover:text-white focus-visible:outline-white lg:w-auto lg:px-2.5">Servicios <ChevronDownIcon /></button><div className={`${isServicesOpen ? 'grid' : 'hidden'} mt-1 gap-1 rounded-lg border border-white/10 bg-[#1b3039] p-2 shadow-2xl lg:absolute lg:left-0 lg:top-[calc(100%+14px)] lg:mt-0 lg:w-[310px]`}>{content.services.map((service) => <a key={service.name} href={service.href} onClick={() => { setIsServicesOpen(false); closeMenu() }} className="group grid grid-cols-[1fr_auto] gap-x-4 rounded-md px-3 py-2.5 transition-colors hover:bg-white/8 focus-visible:outline-white"><span><b className="block text-[12px] font-semibold text-white">{service.name}</b><small className="mt-1 block text-[11px] leading-[1.45] text-white/60">{service.summary}</small></span><ArrowIcon /></a>)}</div></div><NavLink href="#metodologia" onNavigate={closeMenu}>Metodología</NavLink><NavLink href="#experiencia" onNavigate={closeMenu}>Experiencia</NavLink><NavLink href="#perspectivas" onNavigate={closeMenu}>Perspectivas</NavLink><NavLink href="#contacto" onNavigate={closeMenu}>Contacto</NavLink></nav><a className="hidden shrink-0 items-center rounded-full border border-white/45 px-4 py-2.5 text-[12px] font-bold text-white transition-colors hover:border-white hover:bg-white hover:text-deep focus-visible:outline-white lg:inline-flex" href="#contacto">Conversemos</a></div></header>
+}
