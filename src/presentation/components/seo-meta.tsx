@@ -9,7 +9,7 @@ const defaultImage = 'https://agencsi.com/wp-content/uploads/2023/03/638e640ac8b
 
 const pages: Record<string, SeoData> = {
   '/': { title: 'AGENCSI | Estrategias, soluciones y capacidades', description: 'Acompañamos a empresas e instituciones públicas a desarrollar estrategias, soluciones y capacidades para un futuro mejor.' },
-  '/nosotros': { title: 'Nosotros | AGENCSI', description: 'Conoce al equipo y el propósito que guía el trabajo de AGENCSI.' },
+  '/nosotros': { title: 'Nosotros | AGENCSI — Consultoría, Tecnología y Formación', description: 'Conoce el enfoque, propósito y valores de AGENCSI, consultora peruana de estrategia, tecnología y formación.' },
   '/lineas-de-negocio': { title: 'Líneas de negocio | AGENCSI', description: 'Consultoría, soluciones y formación para impulsar cambios sostenibles.' },
   '/consultoria': { title: 'Consultoría | AGENCSI', description: 'Transformamos desafíos en estrategias, soluciones y capacidades.' },
   '/soluciones': { title: 'Soluciones | AGENCSI', description: 'Diseñamos soluciones tecnológicas útiles desde la realidad de cada organización.' },
