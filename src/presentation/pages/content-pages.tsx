@@ -11,7 +11,7 @@ type PageProps = Readonly<{ content: SiteContent }>
 type EditorialProps = PageProps & Readonly<{ title: string, intro: string, image: string, imageAlt: string, children?: ReactNode }>
 
 function EditorialPage({ content, title, intro, image, imageAlt, children }: EditorialProps) {
-  return <SiteLayout content={content}><header className="page-title"><div className="page-frame"><nav className="page-breadcrumb" aria-label="Migas de pan"><a href={toHref(routes.home)}>Inicio</a><span aria-hidden="true">/</span><span aria-current="page">{title}</span></nav><h1>{title}</h1><p>{intro}</p></div></header>{children}</SiteLayout>
+  return <SiteLayout content={content}><header className="page-title relative overflow-hidden"><svg aria-hidden="true" className="absolute right-[-2%] top-1/2 h-[165%] w-auto -translate-y-1/2 text-[#b10b43] opacity-45" viewBox="0 0 360 420" fill="none"><path d="M22 392 181 28l157 364h-62L181 174 86 392H22Z" fill="currentColor" /></svg><div className="page-frame relative z-10"><nav className="page-breadcrumb" aria-label="Migas de pan"><a href={toHref(routes.home)}>Inicio</a><span aria-hidden="true">/</span><span aria-current="page">{title}</span></nav><h1>{title}</h1><p>{intro}</p></div></header>{children}</SiteLayout>
 }
 
 function CopySection({ title, children }: { title: string, children: ReactNode }) {
