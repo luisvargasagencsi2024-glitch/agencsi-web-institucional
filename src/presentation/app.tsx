@@ -6,6 +6,7 @@ import { AboutPage, BusinessLinesPage, ConsultingPage, ContactPage, ExperiencePa
 import { ExperienceArticlePage } from './pages/experience-article-page'
 import { experienceArticles, findExperienceArticle, experiencePath } from './pages/experience-data'
 import { routes } from './routes'
+import { SeoMeta } from './components/seo-meta'
 
 type AppProps = Readonly<{ content: SiteContent }>
 
@@ -51,4 +52,4 @@ function PageResolver({ content }: AppProps) {
   return <NotFoundPage content={content} />
 }
 
-export function App({ content }: AppProps) { return <BrowserRouter><NavigationBridge /><PageResolver content={content} /></BrowserRouter> }
+export function App({ content }: AppProps) { return <BrowserRouter basename={import.meta.env.BASE_URL}><NavigationBridge /><SeoMeta /><PageResolver content={content} /></BrowserRouter> }
