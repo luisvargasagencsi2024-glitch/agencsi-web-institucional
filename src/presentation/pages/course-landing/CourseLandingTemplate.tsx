@@ -207,15 +207,15 @@ function CourseSidebarCard({
           <span className="block text-[11px] font-semibold uppercase tracking-[0.12em] text-[#5a6970]">
             Inversión del programa
           </span>
-          <div className="mt-1 flex items-baseline gap-2.5">
-            <strong className="font-serif text-3xl font-normal tracking-tight text-[#141e24]">
+          <div className="mt-1.5 flex items-baseline gap-3">
+            <strong className="font-display text-[36px] leading-none font-extrabold tracking-[-0.03em] text-[#0f171c]">
               {course.pricing.currency} {course.pricing.price}
             </strong>
-            <span className="text-xs text-[#6a6f73] line-through">
+            <span className="font-display text-sm font-medium text-[#7a8489] line-through">
               {course.pricing.currency} {course.pricing.regularPrice}
             </span>
           </div>
-          <span className="mt-1 block text-xs text-[#5a6970]">
+          <span className="mt-1.5 block text-xs text-[#4a555b]">
             Pago único por participante · Incluye certificación
           </span>
         </div>
@@ -293,10 +293,10 @@ function CourseSidebarCard({
             href={whatsappHref}
             target="_blank"
             rel="noreferrer"
-            className="flex h-11 w-full cursor-pointer items-center justify-center gap-2 whitespace-nowrap bg-accent px-4 text-xs font-semibold tracking-wide text-white transition hover:bg-[#b0103d]"
+            className="flex h-12 w-full cursor-pointer items-center justify-center gap-2 whitespace-nowrap bg-accent px-4 text-[15px] font-semibold text-white transition hover:bg-[#b0103d]"
           >
             <span className="text-white">Inscribirme al curso</span>
-            <ArrowRight className="size-3.5 shrink-0 text-white" />
+            <ArrowRight className="size-4 shrink-0 text-white" />
           </a>
 
           <p className="mt-2.5 text-center text-[11px] font-medium text-[#5a6970]">
@@ -811,7 +811,7 @@ export default function CourseLandingTemplate({
       <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[#d1d7dc] bg-white px-4 py-2.5 shadow-[0_-4px_16px_rgba(20,37,45,0.1)] lg:hidden">
         <div className="mx-auto flex max-w-lg items-center justify-between gap-3">
           <div>
-            <strong className="font-serif text-xl font-normal text-[#141e24]">
+            <strong className="font-display text-2xl font-extrabold tracking-tight text-[#0f171c]">
               {course.pricing.currency} {course.pricing.price}
             </strong>
             <span className="ml-2 text-[11px] text-[#5a6970]">
@@ -822,10 +822,10 @@ export default function CourseLandingTemplate({
             href={`https://wa.me/${course.pricing.whatsappPhone}?text=${encodeURIComponent(course.pricing.whatsappDefaultMessage)}`}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex cursor-pointer items-center gap-1.5 bg-accent px-4 py-2 text-xs font-semibold text-white"
+            className="inline-flex cursor-pointer items-center gap-1.5 bg-accent px-4 py-2.5 text-[15px] font-semibold text-white"
           >
             <span className="text-white">Inscribirme al curso</span>
-            <ArrowRight className="size-3.5 text-white" />
+            <ArrowRight className="size-4 text-white" />
           </a>
         </div>
       </div>
