@@ -125,7 +125,7 @@ export interface CourseTemplateData {
 }
 
 export const programmerIaCourse: CourseTemplateData = {
-  slug: 'programmer-ia-proyect',
+  slug: 'programacion-con-ia',
   category: 'Programación e Inteligencia Artificial Aplicada',
   cohortBadge: 'EDICIÓN EN VIVO · CUPOS LIMITADOS POR MENTORÍA',
   urgencyBanner: {
@@ -511,6 +511,7 @@ export const programmerIaCourse: CourseTemplateData = {
 
 export const courseCatalog: Record<string, CourseTemplateData> = {
   [programmerIaCourse.slug]: programmerIaCourse,
+  'programmer-ia-proyect': programmerIaCourse,
 }
 
 export function findCourseBySlug(slug: string): CourseTemplateData | undefined {
