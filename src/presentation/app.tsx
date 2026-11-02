@@ -4,6 +4,8 @@ import type { SiteContent } from '../domain/entities/site-content'
 import { HomePage } from './pages/home-page'
 import { AboutPage, BusinessLinesPage, ConsultingPage, ContactPage, ExperiencePage, LegalPage, MethodologyPage, NotFoundPage, PerspectivesPage, PublicSectorPage, SolutionsPage, TrainingPage } from './pages/content-pages'
 import { ExperienceArticlePage } from './pages/experience-article-page'
+import { ProgrammerIAProjectPage } from './pages/programmer-ia-project-page'
+import { findCourseBySlug } from './pages/course-landing/course-catalog'
 import { experienceArticles, findExperienceArticle, experiencePath } from './pages/experience-data'
 import { routes } from './routes'
 import { SeoMeta } from './components/seo-meta'
@@ -35,12 +37,14 @@ function PageResolver({ content }: AppProps) {
   const direct = experienceArticles.find((article) => experiencePath(article) === path)
   if (direct) return <ExperienceArticlePage content={content} article={direct} />
   if (path.startsWith('/experiencias/')) { const article = findExperienceArticle(path.split('/').at(-1) ?? ''); return article ? <ExperienceArticlePage content={content} article={article} /> : <NotFoundPage content={content} /> }
+  if (path.startsWith('/formacion/curso/')) { const course = findCourseBySlug(path.split('/').at(-1) ?? ''); return course ? <ProgrammerIAProjectPage content={content} course={course} /> : <NotFoundPage content={content} /> }
   if (path === routes.home) return <HomePage content={content} />
   if (path === routes.about) return <AboutPage content={content} />
   if (path === routes.businessLines) return <BusinessLinesPage content={content} />
   if (path === routes.consulting) return <ConsultingPage content={content} />
   if (path === routes.solutions) return <SolutionsPage content={content} />
   if (path === routes.training) return <TrainingPage content={content} />
+  if (path === routes.programmerIaProject) return <ProgrammerIAProjectPage content={content} />
   if (path === routes.publicSector) return <PublicSectorPage content={content} />
   if (path === routes.methodology) return <MethodologyPage content={content} />
   if (path === routes.experience) return <ExperiencePage content={content} />

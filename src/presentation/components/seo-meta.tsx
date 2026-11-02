@@ -14,6 +14,7 @@ const pages: Record<string, SeoData> = {
   '/consultoria': { title: 'Consultoría | AGENCSI', description: 'Transformamos desafíos en estrategias, soluciones y capacidades.' },
   '/soluciones': { title: 'Soluciones | AGENCSI', description: 'Diseñamos soluciones tecnológicas útiles desde la realidad de cada organización.' },
   '/formacion': { title: 'Formación | AGENCSI', description: 'Fortalecemos capacidades para sostener el cambio y aprender mientras avanzamos.' },
+  '/formacion/curso/programmer-ia-proyect': { title: 'AGENCSI Formación | Programación con IA', description: 'Curso intensivo de Programación con IA: de la idea a un proyecto digital funcional, publicado y listo para presentar.' },
   '/sector-publico': { title: 'Sector público | AGENCSI', description: 'Impulsamos una gestión pública centrada en las personas y sus necesidades.' },
   '/metodologia': { title: 'Metodología | AGENCSI', description: 'Una forma clara, colaborativa y práctica de avanzar hacia resultados sostenibles.' },
   '/experiencia': { title: 'Experiencia | AGENCSI', description: 'Ideas, casos y reflexiones para comprender los desafíos de transformación.' },
