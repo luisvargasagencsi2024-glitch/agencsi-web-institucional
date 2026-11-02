@@ -208,7 +208,7 @@ function CourseSidebarCard({
             Inversión del programa
           </span>
           <div className="mt-1.5 flex items-baseline gap-3">
-            <strong className="font-display text-[36px] leading-none font-extrabold tracking-[-0.03em] text-[#0f171c]">
+            <strong className="font-display text-[36px] leading-none font-extrabold tracking-[-0.03em] text-accent">
               {course.pricing.currency} {course.pricing.price}
             </strong>
             <span className="font-display text-sm font-medium text-[#7a8489] line-through">
@@ -811,7 +811,7 @@ export default function CourseLandingTemplate({
       <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[#d1d7dc] bg-white px-4 py-2.5 shadow-[0_-4px_16px_rgba(20,37,45,0.1)] lg:hidden">
         <div className="mx-auto flex max-w-lg items-center justify-between gap-3">
           <div>
-            <strong className="font-display text-2xl font-extrabold tracking-tight text-[#0f171c]">
+            <strong className="font-display text-2xl font-extrabold tracking-tight text-accent">
               {course.pricing.currency} {course.pricing.price}
             </strong>
             <span className="ml-2 text-[11px] text-[#5a6970]">
