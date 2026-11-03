@@ -5,7 +5,7 @@ import { SiteLayout } from '../layouts/site-layout'
 import { routes, toHref } from '../routes'
 import { experienceArticles, experiencePath } from './experience-data'
 
-const photo = (id: string) => id.startsWith('http') ? id : `https://images.unsplash.com/${id}?auto=format&fit=crop&w=1800&q=85`
+const photo = (id: string) => id.startsWith('http') || id.startsWith('/') ? id : `https://images.unsplash.com/${id}?auto=format&fit=crop&w=1800&q=85`
 
 type PageProps = Readonly<{ content: SiteContent }>
 type EditorialProps = PageProps & Readonly<{ title: string, intro: string, image: string, imageAlt: string, children?: ReactNode }>

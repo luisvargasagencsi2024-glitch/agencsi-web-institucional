@@ -6,7 +6,7 @@ import { SiteLayout } from '../layouts/site-layout'
 import { experienceArticles, experiencePath, type ExperienceArticle } from './experience-data'
 import { routes, toHref } from '../routes'
 
-const photo = (id: string) => id.startsWith('http') ? id : `https://images.unsplash.com/${id}?auto=format&fit=crop&w=1800&q=85`
+const photo = (id: string) => id.startsWith('http') || id.startsWith('/') ? id : `https://images.unsplash.com/${id}?auto=format&fit=crop&w=1800&q=85`
 
 export function ExperienceArticlePage({ content, article }: { content: SiteContent, article: ExperienceArticle }) {
   const similar = experienceArticles.filter((item) => item.slug !== article.slug).slice(0, 4)
