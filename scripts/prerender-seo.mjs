@@ -17,7 +17,7 @@ for (const entry of entries) {
   if (!slug || !title || !summary || !image) continue
   const path = `/${slug}`
   const url = `${origin}${path}`
-  const imageUrl = image.startsWith('http') ? image : 'https://agencsi.com/wp-content/uploads/2023/03/638e640ac8b2c.jpeg'
+  const imageUrl = image.startsWith('http') ? image : `${origin}${image}`
   const seoTitle = `${title} | AGENCSI`
   let html = template.replace(/<title>[^<]*<\/title>/, `<title>${escape(seoTitle)}</title>`)
   html = html.replace(/(<meta name="description" content=")[^"]*(")/, `$1${escape(summary)}$2`)

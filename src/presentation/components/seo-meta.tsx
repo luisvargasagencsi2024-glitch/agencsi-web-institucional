@@ -5,7 +5,7 @@ import { experienceArticles, experiencePath } from '../pages/experience-data'
 type SeoData = Readonly<{ title: string, description: string, image?: string, type?: 'website' | 'article', publishedAt?: string }>
 
 const siteName = 'AGENCSI'
-const defaultImage = 'https://agencsi.com/wp-content/uploads/2023/03/638e640ac8b2c.jpeg'
+const defaultImage = '/agencsi-assets/agencsi-home-share.jpeg'
 
 const pages: Record<string, SeoData> = {
   '/': { title: 'AGENCSI | Estrategias, soluciones y capacidades', description: 'Acompañamos a empresas e instituciones públicas a desarrollar estrategias, soluciones y capacidades para un futuro mejor.' },
@@ -23,7 +23,7 @@ const pages: Record<string, SeoData> = {
   '/contacto': { title: 'Contacto | AGENCSI', description: 'Conversemos sobre los desafíos y oportunidades de tu organización.' },
 }
 
-function photo(image?: string) { return image?.startsWith('http') ? image : defaultImage }
+function photo(image?: string) { return image ?? defaultImage }
 function setMeta(selector: string, attribute: 'name' | 'property', value: string) {
   let element = document.head.querySelector<HTMLMetaElement>(selector)
   if (!element) { element = document.createElement('meta'); element.setAttribute(attribute, selector.match(/="([^"]+)/)?.[1] ?? ''); document.head.appendChild(element) }
