@@ -1,8 +1,9 @@
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
+import { findCourseBySlug } from '../pages/course-landing/course-catalog'
 import { experienceArticles, experiencePath } from '../pages/experience-data'
 
-type SeoData = Readonly<{ title: string, description: string, image?: string, type?: 'website' | 'article', publishedAt?: string }>
+type SeoData = Readonly<{ title: string, description: string, image?: string, type?: 'website' | 'article', publishedAt?: string, keywords?: string }>
 
 const siteName = 'AGENCSI'
 const defaultImage = '/agencsi-assets/agencsi-home-share.jpeg'
@@ -15,7 +16,6 @@ const pages: Record<string, SeoData> = {
   '/soluciones': { title: 'Soluciones | AGENCSI', description: 'Diseñamos soluciones tecnológicas útiles desde la realidad de cada organización.' },
   '/formacion': { title: 'Formación | AGENCSI', description: 'Fortalecemos capacidades para sostener el cambio y aprender mientras avanzamos.' },
   '/formacion/curso/programacion-con-ia': { title: 'AGENCSI Formación | Programación con IA', description: 'Curso intensivo de Programación con IA: de la idea a un proyecto digital funcional, publicado y listo para presentar.' },
-  '/formacion/curso/programmer-ia-proyect': { title: 'AGENCSI Formación | Programación con IA', description: 'Curso intensivo de Programación con IA: de la idea a un proyecto digital funcional, publicado y listo para presentar.' },
   '/sector-publico': { title: 'Sector público | AGENCSI', description: 'Impulsamos una gestión pública centrada en las personas y sus necesidades.' },
   '/metodologia': { title: 'Metodología | AGENCSI', description: 'Una forma clara, colaborativa y práctica de avanzar hacia resultados sostenibles.' },
   '/experiencia': { title: 'Experiencia | AGENCSI', description: 'Ideas, casos y reflexiones para comprender los desafíos de transformación.' },
@@ -35,25 +35,50 @@ export function SeoMeta() {
   useEffect(() => {
     const normalized = pathname.length > 1 && pathname.endsWith('/') ? pathname.slice(0, -1) : pathname
     const article = experienceArticles.find((item) => experiencePath(item) === normalized) ?? (normalized.startsWith('/experiencias/') ? experienceArticles.find((item) => item.slug === normalized.split('/').at(-1)) : undefined)
-    const data: SeoData = article ? { title: `${article.title} | ${siteName}`, description: article.summary, image: photo(article.image), type: 'article', publishedAt: article.publishedAt } : pages[normalized] ?? pages['/']
+    const course = normalized.startsWith('/formacion/curso/') ? findCourseBySlug(normalized.split('/').at(-1) ?? '') : undefined
+    const data: SeoData = article
+      ? { title: `${article.title} | ${siteName}`, description: article.summary, image: photo(article.image), type: 'article', publishedAt: article.publishedAt, keywords: article.keywords?.join(', ') }
+      : course
+        ? {
+            title: `${course.title} ${course.titleAccent} | Curso de programación con IA | ${siteName}`,
+            description: course.subtitle,
+            image: `/${course.instructor.image}`,
+            keywords: 'curso de programación con IA, inteligencia artificial, desarrollo web, MVP, formación virtual, AGENCSI',
+          }
+        : pages[normalized] ?? pages['/']
     const canonical = window.location.href.split(/[?#]/)[0]
+    const socialImage = new URL(photo(data.image), window.location.origin).href
     document.title = data.title
     let canonicalLink = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]')
     if (!canonicalLink) { canonicalLink = document.createElement('link'); canonicalLink.rel = 'canonical'; document.head.appendChild(canonicalLink) }
     canonicalLink.href = canonical
     setMeta('meta[name="description"]', 'name', data.description)
     setMeta('meta[name="robots"]', 'name', 'index, follow')
+    if (data.keywords) setMeta('meta[name="keywords"]', 'name', data.keywords)
     setMeta('meta[property="og:title"]', 'property', data.title)
     setMeta('meta[property="og:description"]', 'property', data.description)
     setMeta('meta[property="og:type"]', 'property', data.type ?? 'website')
     setMeta('meta[property="og:url"]', 'property', canonical)
-    setMeta('meta[property="og:image"]', 'property', photo(data.image))
+    setMeta('meta[property="og:image"]', 'property', socialImage)
     setMeta('meta[property="og:site_name"]', 'property', siteName)
     setMeta('meta[name="twitter:card"]', 'name', 'summary_large_image')
     setMeta('meta[name="twitter:title"]', 'name', data.title)
     setMeta('meta[name="twitter:description"]', 'name', data.description)
-    setMeta('meta[name="twitter:image"]', 'name', photo(data.image))
-    const schema = article ? { '@context': 'https://schema.org', '@type': 'Article', headline: article.title, description: article.summary, image: photo(article.image), datePublished: article.publishedAt, author: { '@type': 'Organization', name: article.author }, publisher: { '@type': 'Organization', name: siteName }, mainEntityOfPage: canonical } : { '@context': 'https://schema.org', '@type': 'Organization', name: siteName, url: canonical, description: data.description }
+    setMeta('meta[name="twitter:image"]', 'name', socialImage)
+    const schema = article
+      ? { '@context': 'https://schema.org', '@type': 'Article', headline: article.title, description: article.summary, image: socialImage, datePublished: article.publishedAt, author: { '@type': 'Organization', name: article.author }, publisher: { '@type': 'Organization', name: siteName }, mainEntityOfPage: canonical }
+      : course
+        ? {
+            '@context': 'https://schema.org',
+            '@type': 'Course',
+            name: `${course.title} ${course.titleAccent}`,
+            description: course.subtitle,
+            image: socialImage,
+            provider: { '@type': 'Organization', name: siteName, url: window.location.origin },
+            inLanguage: 'es-PE',
+            offers: { '@type': 'Offer', price: String(course.pricing.price), priceCurrency: 'PEN', availability: 'https://schema.org/InStock', url: canonical },
+          }
+        : { '@context': 'https://schema.org', '@type': 'Organization', name: siteName, url: canonical, description: data.description }
     let script = document.getElementById('agencsi-seo-schema') as HTMLScriptElement | null
     if (!script) { script = document.createElement('script'); script.id = 'agencsi-seo-schema'; script.type = 'application/ld+json'; document.head.appendChild(script) }
     script.text = JSON.stringify(schema)

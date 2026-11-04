@@ -511,7 +511,6 @@ export const programmerIaCourse: CourseTemplateData = {
 
 export const courseCatalog: Record<string, CourseTemplateData> = {
   [programmerIaCourse.slug]: programmerIaCourse,
-  'programmer-ia-proyect': programmerIaCourse,
 }
 
 export function findCourseBySlug(slug: string): CourseTemplateData | undefined {
