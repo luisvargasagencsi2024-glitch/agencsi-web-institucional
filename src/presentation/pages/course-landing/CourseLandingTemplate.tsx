@@ -138,6 +138,7 @@ function CourseSidebarCard({
   const [email, setEmail] = useState('')
   const [sent, setSent] = useState(false)
   const [copied, setCopied] = useState(false)
+  const featureIcons = [MonitorPlay, FileText, Globe2, UserCheck, Award]
 
   const whatsappHref = `https://wa.me/${course.pricing.whatsappPhone}?text=${encodeURIComponent(
     fullName
@@ -211,9 +212,7 @@ function CourseSidebarCard({
             <strong className="font-display text-[36px] leading-none font-extrabold tracking-[-0.03em] text-accent">
               {course.pricing.currency} {course.pricing.price}
             </strong>
-            <span className="font-display text-sm font-medium text-[#7a8489] line-through">
-              {course.pricing.currency} {course.pricing.regularPrice}
-            </span>
+            {course.pricing.regularPrice && course.pricing.regularPrice > course.pricing.price && <span className="font-display text-sm font-medium text-[#7a8489] line-through">{course.pricing.currency} {course.pricing.regularPrice}</span>}
           </div>
           <span className="mt-1.5 block text-xs text-[#4a555b]">
             Pago único por participante · Incluye certificación
@@ -222,22 +221,7 @@ function CourseSidebarCard({
 
         {/* Key Institutional Facts Table */}
         <dl className="grid grid-cols-2 gap-y-2.5 border-b border-[#e4e8eb] py-3.5 text-xs">
-          <div>
-            <dt className="text-[11px] text-[#6a6f73]">Duración</dt>
-            <dd className="font-semibold text-[#141e24]">4 sábados</dd>
-          </div>
-          <div>
-            <dt className="text-[11px] text-[#6a6f73]">Horas lectivas</dt>
-            <dd className="font-semibold text-[#141e24]">14 horas académicas</dd>
-          </div>
-          <div>
-            <dt className="text-[11px] text-[#6a6f73]">Modalidad</dt>
-            <dd className="font-semibold text-[#141e24]">Virtual en vivo</dd>
-          </div>
-          <div>
-            <dt className="text-[11px] text-[#6a6f73]">Cupos</dt>
-            <dd className="font-semibold text-[#141e24]">Máximo 100</dd>
-          </div>
+          {course.quickStats.map((stat) => <div key={stat.label}><dt className="text-[11px] text-[#6a6f73]">{stat.label}</dt><dd className="font-semibold text-[#141e24]">{stat.value}</dd></div>)}
         </dl>
 
         {/* Primary Enrollment CTA (Form fields kept hidden for future activation) */}
@@ -300,7 +284,7 @@ function CourseSidebarCard({
           </a>
 
           <p className="mt-2.5 text-center text-[11px] font-medium text-[#5a6970]">
-            Cupos máximo: 100 participantes
+            {course.enrollmentNote}
           </p>
         </div>
 
@@ -310,26 +294,10 @@ function CourseSidebarCard({
             Este programa incluye:
           </strong>
           <ul className="mt-2 space-y-1.5 text-xs text-[#3b464c]">
-            <li className="flex items-center gap-2">
-              <MonitorPlay className="size-3.5 shrink-0 text-[#141e24]" />
-              <span className="truncate">14 horas de sesiones prácticas en vivo</span>
-            </li>
-            <li className="flex items-center gap-2">
-              <FileText className="size-3.5 shrink-0 text-[#141e24]" />
-              <span className="truncate">Guías de trabajo, plantillas y prompts</span>
-            </li>
-            <li className="flex items-center gap-2">
-              <Globe2 className="size-3.5 shrink-0 text-[#141e24]" />
-              <span className="truncate">Acceso a grabaciones y material</span>
-            </li>
-            <li className="flex items-center gap-2">
-              <UserCheck className="size-3.5 shrink-0 text-[#141e24]" />
-              <span className="truncate">Acompañamiento en tu propio proyecto</span>
-            </li>
-            <li className="flex items-center gap-2">
-              <Award className="size-3.5 shrink-0 text-[#141e24]" />
-              <span className="truncate">Certificado emitido por AGENCSI</span>
-            </li>
+            {course.includedFeatures.slice(0, 5).map((feature, index) => {
+              const Icon = featureIcons[index] ?? Check
+              return <li key={feature} className="flex items-center gap-2"><Icon className="size-3.5 shrink-0 text-[#141e24]" /><span className="truncate">{feature}</span></li>
+            })}
           </ul>
         </div>
       </div>
@@ -344,7 +312,7 @@ function CourseSidebarCard({
           <Share2 className="size-3.5" />
           <span>{copied ? 'Enlace copiado' : 'Compartir este curso'}</span>
         </button>
-        <span className="text-[11px] text-[#6a6f73]">Código: PIA-2026</span>
+        <span className="text-[11px] text-[#6a6f73]">Código: {course.code}</span>
       </div>
     </aside>
   )
@@ -356,6 +324,7 @@ export default function CourseLandingTemplate({
   const [openModules, setOpenModules] = useState<number[]>([0, 1, 2, 3])
   const [openFaq, setOpenFaq] = useState<number | null>(0)
   const [previewOpen, setPreviewOpen] = useState(false)
+  const statIcons = { calendar: CalendarDays, clock: Clock3, globe: Globe2, rocket: Award }
 
   const toggleModule = (index: number) => {
     setOpenModules((current) =>
@@ -384,7 +353,7 @@ export default function CourseLandingTemplate({
     <div className="course-sales-page bg-white font-display text-[#1c1d1f] antialiased">
       {/* DARK INSTITUTIONAL HEADER BAND (Udemy Detail + Executive University Style) */}
       <section className="border-b border-[#26343c] bg-[#141e24] text-white">
-        <div className="mx-auto w-[min(100%-32px,1180px)] py-8 lg:py-10">
+        <div className="mx-auto w-[calc(100%-2rem)] max-w-[1180px] py-8 lg:py-10">
           <div className="lg:max-w-[720px] lg:pr-8">
             {/* Breadcrumb */}
             <nav
@@ -395,7 +364,7 @@ export default function CourseLandingTemplate({
                 Formación
               </a>
               <span className="text-white/40">/</span>
-              <span>Programación e IA</span>
+              <span>{course.category}</span>
               <span className="text-white/40">/</span>
               <span className="text-white/90">{course.title}</span>
             </nav>
@@ -403,7 +372,7 @@ export default function CourseLandingTemplate({
             {/* Institutional Program Label */}
             <div className="mt-4 flex items-center gap-2.5">
               <span className="inline-block bg-accent px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.14em] text-white">
-                Curso Práctico
+                {course.courseTypeLabel}
               </span>
               <span className="text-xs text-white/70">
                  Educación Ejecutiva y Aplicada · AGENCSI
@@ -411,7 +380,7 @@ export default function CourseLandingTemplate({
             </div>
 
             {/* Sober Academic/Corporate Title */}
-            <h1 className="mt-3 font-serif text-[clamp(2rem,3.4vw,2.85rem)] font-normal leading-[1.12] tracking-[-0.02em] text-white">
+            <h1 className="mt-3 font-display text-[clamp(2rem,3.4vw,2.85rem)] font-semibold leading-[1.04] tracking-[-0.035em] text-white">
               {course.title} {course.titleAccent}
             </h1>
 
@@ -431,24 +400,19 @@ export default function CourseLandingTemplate({
                   {course.instructor.name}
                 </a>
               </span>
-              <span className="flex items-center gap-1.5">
-                <CalendarDays className="size-3.5 text-white/60" />4 sábados de práctica
-              </span>
-              <span className="flex items-center gap-1.5">
-                <Clock3 className="size-3.5 text-white/60" />14 horas académicas
-              </span>
-              <span className="flex items-center gap-1.5">
-                <Globe2 className="size-3.5 text-white/60" />100% virtual (Español)
-              </span>
+              {course.quickStats.map((stat) => {
+                const Icon = statIcons[stat.icon]
+                return <span key={stat.label} className="flex items-center gap-1.5"><Icon className="size-3.5 text-white/60" />{stat.value}</span>
+              })}
             </div>
           </div>
         </div>
       </section>
 
       {/* MAIN TWO-COLUMN LAYOUT (Udemy Detail Proportions: 720px Content + 360px Sticky Sidebar) */}
-      <div className="mx-auto grid w-[min(100%-32px,1180px)] gap-10 py-8 lg:grid-cols-[minmax(0,720px)_360px] lg:justify-between lg:py-10">
+      <div className="mx-auto grid w-[calc(100%-2rem)] max-w-[1180px] grid-cols-[minmax(0,1fr)] gap-10 py-8 lg:grid-cols-[minmax(0,720px)_360px] lg:justify-between lg:py-10">
         {/* Mobile Sidebar (Visible at top on mobile/tablet) */}
-        <div className="lg:hidden">
+        <div className="min-w-0 lg:hidden">
           <CourseSidebarCard
             course={course}
             onOpenPreview={() => setPreviewOpen(true)}
@@ -456,13 +420,13 @@ export default function CourseLandingTemplate({
         </div>
 
         {/* LEFT COLUMN: Structured Academic & Practical Content */}
-        <div className="space-y-10">
+        <div className="min-w-0 space-y-10">
           {/* 1. "LO QUE APRENDERÁS" (Udemy-style bordered 2-column box) */}
           <section
             id="aprendizaje"
             className="scroll-mt-24 border border-[#d1d7dc] bg-white p-6"
           >
-            <h2 className="font-serif text-xl font-normal text-[#141e24] sm:text-2xl">
+            <h2 className="font-display text-xl font-semibold tracking-[-0.025em] text-[#141e24] sm:text-2xl">
               Lo que aprenderás
             </h2>
             <p className="mt-1 text-xs text-[#5a6970]">
@@ -493,7 +457,7 @@ export default function CourseLandingTemplate({
               <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#5a6970]">
                 Aplicación práctica
               </span>
-              <h2 className="mt-1 font-serif text-xl font-normal text-[#141e24] sm:text-2xl">
+              <h2 className="mt-1 font-display text-xl font-semibold tracking-[-0.025em] text-[#141e24] sm:text-2xl">
                 De la idea a una solución funcional en cuatro etapas
               </h2>
             </div>
@@ -515,7 +479,7 @@ export default function CourseLandingTemplate({
                   {course.outcomes.map((outcome, index) => (
                     <tr key={outcome.number} className="align-top">
                       <td className="whitespace-nowrap px-4 py-3 font-mono text-[11px] font-semibold text-[#141e24]">
-                        Sábado 0{index + 1}
+                        Sábado {index + 1}
                       </td>
                       <td className="px-4 py-3 text-[#3b464c]">{outcome.title}</td>
                       <td className="px-4 py-3 font-semibold text-[#141e24]">
@@ -533,14 +497,14 @@ export default function CourseLandingTemplate({
             <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#5a6970]">
               Plan de estudios
             </span>
-            <h2 className="mt-1 font-serif text-xl font-normal text-[#141e24] sm:text-2xl">
+            <h2 className="mt-1 font-display text-xl font-semibold tracking-[-0.025em] text-[#141e24] sm:text-2xl">
               Contenido del curso
             </h2>
 
             {/* Udemy summary bar above curriculum */}
             <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-xs text-[#4a555b]">
               <span>
-                4 módulos • 4 sesiones prácticas en vivo • 14 horas académicas en total
+                {course.programSummary}
               </span>
               <button
                 type="button"
@@ -622,7 +586,7 @@ export default function CourseLandingTemplate({
           {/* 4. METODOLOGÍA Y REQUISITOS (Corporate / University Executive Format) */}
           <section id="requisitos" className="scroll-mt-32 space-y-8">
             <div>
-              <h2 className="font-serif text-xl font-normal text-[#141e24] sm:text-2xl">
+              <h2 className="font-display text-xl font-semibold tracking-[-0.025em] text-[#141e24] sm:text-2xl">
                 Metodología de enseñanza
               </h2>
               <p className="mt-2 text-[13px] leading-relaxed text-[#3b464c]">
@@ -648,24 +612,16 @@ export default function CourseLandingTemplate({
 
             <div className="grid gap-6 border-t border-[#d1d7dc] pt-6 sm:grid-cols-2">
               <div>
-                <h3 className="font-serif text-lg font-normal text-[#141e24]">
+                <h3 className="font-display text-lg font-semibold tracking-[-0.02em] text-[#141e24]">
                   Requisitos
                 </h3>
                 <ul className="mt-3 list-disc space-y-2 pl-4 text-xs leading-relaxed text-[#3b464c]">
-                  <li>
-                    No se requiere experiencia previa en programación ni desarrollo de software.
-                  </li>
-                  <li>
-                    Computadora portátil o de escritorio con conexión estable a internet.
-                  </li>
-                  <li>
-                    Disposición para desarrollar un proyecto propio o caso práctico durante las 4 semanas.
-                  </li>
+                  {course.requirements.map((requirement) => <li key={requirement}>{requirement}</li>)}
                 </ul>
               </div>
 
               <div>
-                <h3 className="font-serif text-lg font-normal text-[#141e24]">
+                <h3 className="font-display text-lg font-semibold tracking-[-0.02em] text-[#141e24]">
                   ¿Para quién es este curso?
                 </h3>
                 <ul className="mt-3 list-disc space-y-2 pl-4 text-xs leading-relaxed text-[#3b464c]">
@@ -696,7 +652,7 @@ export default function CourseLandingTemplate({
               </span>
             </div>
 
-            <h2 className="mt-3 font-serif text-2xl font-normal text-white sm:text-[26px]">
+            <h2 className="mt-3 font-display text-2xl font-semibold tracking-[-0.025em] text-white sm:text-[26px]">
               {course.instructor.name}
             </h2>
             <p className="mt-0.5 text-xs font-medium text-white/70">
@@ -739,7 +695,7 @@ export default function CourseLandingTemplate({
                 <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#5a6970]">
                   Acreditación académica
                 </span>
-                <h2 className="mt-1 font-serif text-xl font-normal text-[#141e24]">
+                <h2 className="mt-1 font-display text-xl font-semibold tracking-[-0.025em] text-[#141e24]">
                   {course.certification.title}
                 </h2>
                 <p className="mt-2 text-xs leading-relaxed text-[#4a555b]">
@@ -762,7 +718,7 @@ export default function CourseLandingTemplate({
             <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#5a6970]">
               Consultas habituales
             </span>
-            <h2 className="mt-1 font-serif text-xl font-normal text-[#141e24] sm:text-2xl">
+            <h2 className="mt-1 font-display text-xl font-semibold tracking-[-0.025em] text-[#141e24] sm:text-2xl">
               Preguntas frecuentes
             </h2>
 
@@ -815,7 +771,7 @@ export default function CourseLandingTemplate({
               {course.pricing.currency} {course.pricing.price}
             </strong>
             <span className="ml-2 text-[11px] text-[#5a6970]">
-              Cupos máx. 100 · 14 horas
+              {course.enrollmentNote}
             </span>
           </div>
           <a

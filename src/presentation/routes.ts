@@ -8,6 +8,7 @@ export const routes = {
   solutions: '/soluciones',
   training: '/formacion',
   programmerIaProject: '/formacion/curso/programacion-con-ia',
+  aiForTeachers: '/formacion/curso/ia-para-docentes',
   publicSector: '/sector-publico',
   methodology: '/metodologia',
   experience: '/experiencia',

@@ -40,10 +40,10 @@ export function SeoMeta() {
       ? { title: `${article.title} | ${siteName}`, description: article.summary, image: photo(article.image), type: 'article', publishedAt: article.publishedAt, keywords: article.keywords?.join(', ') }
       : course
         ? {
-            title: `${course.title} ${course.titleAccent} | Curso de programación con IA | ${siteName}`,
-            description: course.subtitle,
+            title: course.seo.title,
+            description: course.seo.description,
             image: `/${course.instructor.image}`,
-            keywords: 'curso de programación con IA, inteligencia artificial, desarrollo web, MVP, formación virtual, AGENCSI',
+            keywords: course.seo.keywords,
           }
         : pages[normalized] ?? pages['/']
     const canonical = window.location.href.split(/[?#]/)[0]

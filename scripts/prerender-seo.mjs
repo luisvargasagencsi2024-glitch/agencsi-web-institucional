@@ -11,11 +11,21 @@ const replaceTag = (html, selector, value) => html.replace(new RegExp(`(<meta ${
 const coursePages = [
   {
     path: '/formacion/curso/programacion-con-ia',
+    name: 'Programa con IA. De la idea a una solución real.',
     title: 'Programa con IA. De la idea a una solución real. | Curso de programación con IA | AGENCSI',
     description: 'Aprende a diseñar, programar y publicar un proyecto digital funcional para un negocio o necesidad real, incluso si estás empezando desde cero.',
     image: '/yimmi-urbano.png',
     keywords: 'curso de programación con IA, inteligencia artificial, desarrollo web, MVP, formación virtual, AGENCSI',
     price: '180',
+  },
+  {
+    path: '/formacion/curso/ia-para-docentes',
+    name: 'Inteligencia Artificial para Potenciar tu Labor Docente',
+    title: 'Inteligencia Artificial para Potenciar tu Labor Docente | AGENCSI',
+    description: 'Integra herramientas de IA en tu práctica educativa para planificar, crear recursos, evaluar y optimizar tu tiempo.',
+    image: '/yimmi-urbano.png',
+    keywords: 'IA para docentes, inteligencia artificial educativa, labor docente, planificación, evaluación, certificación docente, formación virtual, AGENCSI',
+    price: '150',
   },
 ]
 
@@ -25,7 +35,7 @@ function withCourseSeo(course) {
   const schema = JSON.stringify({
     '@context': 'https://schema.org',
     '@type': 'Course',
-    name: 'Programa con IA. De la idea a una solución real.',
+    name: course.name,
     description: course.description,
     image,
     provider: { '@type': 'Organization', name: 'AGENCSI', url: origin },
